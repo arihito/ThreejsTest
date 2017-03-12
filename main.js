@@ -35,7 +35,7 @@ loader.load(
     // オブジェクトを画面に(都度毎回)表示
     scene.add(mesh);
 
-    render();
+    animate();
   }
 );
 function render() {
@@ -45,3 +45,10 @@ function render() {
 // マウスで3D風に操作できるようにOrbitControlsを追加
 var controls = new THREE.OrbitControls( camera, renderer.domElement );
 controls.addEventListener( 'change', render );
+
+function animate() {
+  mesh.rotation.y += 0.05;
+  mesh.rotation.x += 0.02;
+  render();
+  window.requestAnimationFrame(animate);
+}
