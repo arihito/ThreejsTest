@@ -16,18 +16,31 @@ var camera = new THREE.PerspectiveCamera( 75, canvasWidth / canvasHeight, 1, 100
 // 後ろに100px下がる
 camera.position.z = 100;
 
-// オブジェクト(Mesh)を20px四方で準備 3Dの場合BoxGeometryで値を3つ指定
-var geometry = new THREE.PlaneGeometry( 20, 20 );
-var material = new THREE.MeshBasicMaterial();
-var mesh = new THREE.Mesh(geometry, material);
+var loader = new THREE.TextureLoader();
+loader.crossOrigin = '*';
+var mesh;
+loader.load(
+  'http://panda-space.com/img/cors/icon.jpg',
+  function( texture ) {
+    // オブジェクト(Mesh)を20px四方で準備 3Dの場合BoxGeometryで値を3つ指定
+    var geometry = new THREE.BoxGeometry( 100, 100, 10 );
 
-// オブジェクトを画面に(都度毎回)表示
-scene.add(mesh);
+    // オブジェクトの表面の質感を設定
+    var material = new THREE.MeshBasicMaterial({
+      map: texture,
+      color: 0Xccaaabb,
+    });
+    mesh = new THREE.Mesh(geometry, material);
 
+    // オブジェクトを画面に(都度毎回)表示
+    scene.add(mesh);
+
+    render();
+  }
+);
 function render() {
   renderer.render(scene, camera);
 }
-render();
 
 // マウスで3D風に操作できるようにOrbitControlsを追加
 var controls = new THREE.OrbitControls( camera, renderer.domElement );
